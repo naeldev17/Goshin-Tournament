@@ -16,7 +16,6 @@ Tecnologias
 - MySQL
 - Laravel Sanctum
 
-
 Como rodar o projeto:
 1. Clonar o repositório
 2. Instalar dependências:
@@ -28,9 +27,7 @@ Como rodar o projeto:
    php artisan serve
 
 
-Status:
-
-Projeto em desenvolvimento.
+Status: Projeto em desenvolvimento.
 
 
 Próximos passos:
