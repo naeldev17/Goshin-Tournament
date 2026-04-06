@@ -3,25 +3,26 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCompetitionRequest;
+use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Requests\UpdateCompetitionRequest;
+use App\Services\CompetitionService;
 use Illuminate\Http\Request;
 use App\Models\Competition;
 
 class CompetitionController extends Controller
 {
-        public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'date' => 'required|date',
-            'location' => 'required|string|max:255'
-        ]);
+        public function store(StoreCompetitionRequest $request, CompetitionService $service)
+        {
+            $validated = $request->validated();
 
-        $validated['owner_id'] = 1;
+            $user = $request->user();
 
-        $competition = Competition::create($validated);
+            $competition = $service->create($validated, $user);
 
-        return response()->json($competition, 201);
-    }
+            return response()->json($competition, 201);
+
+        }
 
         public function index()
         {
@@ -36,20 +37,19 @@ class CompetitionController extends Controller
           return response()->json($competition, 200);
         }
 
-        public function update(Request $request, int $id)
-        {        
-            $competition = Competition::findOrFail($id);
+        public function update(
+            UpdateCompetitionRequest $request,
+            CompetitionService $service,
+            Competition $competition
+        ) {
+            $validated = $request->validated();
 
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'date' => 'required|date',
-                'location' => 'required|string|max:255'
-            ]);
+            $user = $request->user();
 
-            $competition->update($validated);
+            $competition = $service->update($validated, $user, $competition);
 
             return response()->json($competition, 200);
-        }
+    }
 
         public function destroy(Request $request, int $id)
         {

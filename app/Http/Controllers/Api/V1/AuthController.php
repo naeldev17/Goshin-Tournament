@@ -25,8 +25,9 @@ class AuthController extends Controller
 
         if(!$authenticated) 
             {
-                return response()->json(['message' => 'Credenciais Inválidas'], 401);
+                return response()->json(['message' => 'Credenciais Inválidas'], 422);
             }
+            
         $user = Auth::user();
         $token = $user->createToken('login_token')->plainTextToken;
 
