@@ -33,4 +33,5 @@ class CompetitionTest extends TestCase
             'owner_id' => $user->id
         ]);
     }
+
 }
